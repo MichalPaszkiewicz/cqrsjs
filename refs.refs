@@ -1,0 +1,14 @@
+projections <== framework;
+domain <== framework;
+eventreplayer <== framework, projections;
+applicationservices <== framework, domain, projections;
+
+//for data migrations etc.
+migrations <== framework, projections, domain, applicationservices;
+
+//put any personal project dependencies below:
+frontend <== framework, projections, domain, applicationservices, migrations;
+
+
+//tests
+tests <== framework, projections, domain, applicationservices, migrations, eventreplayer
