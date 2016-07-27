@@ -68,5 +68,67 @@ var CQRSjs;
                 expect(testProjectionStore.Tables.length).toBe(0);
             });
         });
+        describe("a projection store", function () {
+            var testProjectionStore = new CQRSjs.Projections.ProjectionStore();
+            var testString = null;
+            testProjectionStore.overrideClear(function () {
+                testString = "lol";
+            });
+            it("should allow overriding of the clear method", function () {
+                testProjectionStore.clear();
+                expect(testString).toBe("lol");
+            });
+        });
+        describe("a projection store", function () {
+            var testProjectionStore = new CQRSjs.Projections.ProjectionStore();
+            var testTable = new CQRSjs.Projections.Table("lol");
+            testProjectionStore.overrideGetTable(function (name) {
+                return testTable;
+            });
+            it("should allow overriding of the get table method", function () {
+                expect(testProjectionStore.getTable("haha")).toBe(testTable);
+            });
+        });
+        describe("a projection store", function () {
+            var testProjectionStore = new CQRSjs.Projections.ProjectionStore();
+            var testString = null;
+            testProjectionStore.overrideAddTable(function (name) {
+                testString = "lol";
+            });
+            it("should allow overriding of the add table method", function () {
+                testProjectionStore.addTable("test");
+                expect(testString).toBe("lol");
+            });
+        });
+        describe("a projection store", function () {
+            var testProjectionStore = new CQRSjs.Projections.ProjectionStore();
+            var testString = null;
+            testProjectionStore.overrideAddRowToTable(function (tableName, row) {
+                testString = "lol";
+            });
+            it("should allow overriding of the add row to table method", function () {
+                testProjectionStore.addRowToTable("blah", new CQRSjs.Projections.Row({ one: 1 }));
+                expect(testString).toBe("lol");
+            });
+        });
+        describe("a projection store", function () {
+            var testProjectionStore = new CQRSjs.Projections.ProjectionStore();
+            var testString = null;
+            testProjectionStore.overrideAddRowsToTable(function (tableName, rows) {
+                testString = "lol";
+            });
+            it("should allow overriding of the add rows to table method", function () {
+                testProjectionStore.addRowsToTable("blah", [new CQRSjs.Projections.Row({ one: 1 })]);
+                expect(testString).toBe("lol");
+            });
+        });
+        describe("a projection store", function () {
+            var testProjectionStore = new CQRSjs.Projections.ProjectionStore();
+            var testTable = new CQRSjs.Projections.Table("testTable");
+            testProjectionStore.overrideGetTables(function () { return [testTable]; });
+            it("should allow overriding of the get tables method", function () {
+                expect(testProjectionStore.Tables[0]).toBe(testTable);
+            });
+        });
     })(Test = CQRSjs.Test || (CQRSjs.Test = {}));
 })(CQRSjs || (CQRSjs = {}));

@@ -11,38 +11,91 @@ namespace CQRSjs.Projections{
             return ProjectionStore._instance;            
         }
         
-        Tables: Table[] = [];
+        private _tables: Table[] = [];
+        private _getTables: () => Table[] = () => {
+            return this._tables;
+        }
 
-        clear(){
-            this.Tables.forEach((t: Table)=>{
+        get Tables(): Table[]{
+            return this._getTables();
+        }
+
+        overrideGetTables(func: () => Table[]){
+            this._getTables = func;
+        }
+
+        private _clear: () => void = () => {
+            this._tables.forEach((t: Table)=>{
                 t.clear();
             });
-            this.Tables = [];
+            this._tables = [];
+        }
+
+        clear(){
+            this._clear();
+        }
+
+        overrideClear(clearFunc: () => void){
+            this._clear = clearFunc;
         }
         
+        private _addTable: (name: string) => void = (name) => {
+            this._tables.push(new Projections.Table(name));
+        }
+
         addTable(name: string){
-            this.Tables.push(new Projections.Table(name));
+            this._addTable(name);
+        }
+
+        overrideAddTable(func: (name: string) => void){
+            this._addTable = func;
         }
         
-        addRowToTable(tableName: string, row: Row){
+        private _addRowToTable: (tableName: string, row: Row) => void = (tableName: string, row: Row) => 
+        {
             var table = this.getTable(tableName);
             table.Rows.push(row);
         }
-        
-        addRowsToTable(tableName: string, rows: Row[]){
+
+        addRowToTable(tableName: string, row: Row){
+            this._addRowToTable(tableName, row);
+        }
+
+        overrideAddRowToTable(func: (tableName: string, row: Row) => void){
+            this._addRowToTable = func;
+        }
+
+        private _addRowsToTable: (tableName: string, rows: Row[]) => void = (tableName: string, rows: Row[]) => 
+        {
             var table = this.getTable(tableName);
             table.Rows = table.Rows.concat(rows);
         }
         
-        getTable(name: string){
-            for(var i = 0; i < this.Tables.length; i++){
-                if(this.Tables[i].Name == name){
-                    return this.Tables[i];
+        addRowsToTable(tableName: string, rows: Row[]){
+            this._addRowsToTable(tableName, rows);
+        }
+
+        overrideAddRowsToTable(func: (tableName: string, rows: Row[]) => void){
+            this._addRowsToTable = func;
+        }
+
+        private _getTable: (name: string) => Table = (name) => {
+            var tables = this.Tables;
+            for(var i = 0; i < tables.length; i++){
+                if(tables[i].Name == name){
+                    return tables[i];
                 }
             }
             Framework.ErrorService.throw(`Table {name} not found`)
         }
         
+        getTable(name: string): Table{
+            return this._getTable(name);
+        }
+        
+        overrideGetTable(func: (name: string) => Table){
+            this._getTable = func;
+        }
     }
     
 }

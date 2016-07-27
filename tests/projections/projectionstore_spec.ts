@@ -86,4 +86,84 @@ module CQRSjs.Test{
         });
     });
 
+    describe("a projection store", function(){
+        var testProjectionStore = new Projections.ProjectionStore();
+        var testString: string = null;
+        
+        testProjectionStore.overrideClear(() => {
+            testString = "lol";
+        });
+
+        it("should allow overriding of the clear method", function(){
+            testProjectionStore.clear();
+            expect(testString).toBe("lol");
+        });
+    });
+
+    describe("a projection store", function(){
+        var testProjectionStore = new Projections.ProjectionStore();
+        var testTable = new Projections.Table("lol");
+
+        testProjectionStore.overrideGetTable((name: string) => {
+            return testTable;
+        });
+
+        it("should allow overriding of the get table method", function(){
+            expect(testProjectionStore.getTable("haha")).toBe(testTable);
+        });
+    });
+
+    describe("a projection store", function(){
+        var testProjectionStore = new Projections.ProjectionStore();
+        var testString = null;
+
+        testProjectionStore.overrideAddTable((name: string) => {
+            testString = "lol";
+        });
+
+        it("should allow overriding of the add table method", function(){
+            testProjectionStore.addTable("test");
+            expect(testString).toBe("lol");
+        });
+    });
+
+    describe("a projection store", function(){
+        var testProjectionStore = new Projections.ProjectionStore();
+        var testString = null;        
+        
+        testProjectionStore.overrideAddRowToTable((tableName, row) => {
+            testString = "lol";
+        });
+
+        it("should allow overriding of the add row to table method", function(){
+            testProjectionStore.addRowToTable("blah", new Projections.Row({one:1}));
+            expect(testString).toBe("lol");
+        });
+    });
+
+    describe("a projection store", function(){
+        var testProjectionStore = new Projections.ProjectionStore();
+        var testString = null;                
+        
+        testProjectionStore.overrideAddRowsToTable((tableName, rows) => {
+            testString = "lol";            
+        });
+
+        it("should allow overriding of the add rows to table method", function(){
+            testProjectionStore.addRowsToTable("blah", [new Projections.Row({one:1})]);
+            expect(testString).toBe("lol");
+        });
+    });
+
+    describe("a projection store", function(){
+        var testProjectionStore = new Projections.ProjectionStore();
+        var testTable = new Projections.Table("testTable");
+
+        testProjectionStore.overrideGetTables(() => { return [testTable] });
+
+        it("should allow overriding of the get tables method", function(){
+            expect(testProjectionStore.Tables[0]).toBe(testTable);
+        });
+    });
+
 }
