@@ -2,7 +2,7 @@ import * as Framework from '../../scripts/framework';
 import * as Domain from '../../scripts/domain';
 import * as Projections from '../../scripts/projections';
 import * as ApplicationServices from '../../scripts/applicationservices';
-import {CreateTableCommand} from '../../scripts/migrations/commands/createtablecommand';
+import * as Migrations from '../../scripts/migrations';
 
 module CQRSjs.Test{
 
@@ -11,7 +11,7 @@ module CQRSjs.Test{
 
     describe("a migration", function(){
         it("should have created a table with the correct name", function(){
-            ApplicationServices.CommandHandlerService.Instance.handle(new CreateTableCommand(_userName, _tableName));            
+            ApplicationServices.CommandHandlerService.Instance.handle(new Migrations.CreateTableCommand(_userName, _tableName));            
             expect(Projections.ProjectionStore.Instance.Tables.length).toBe(1);
             expect(Projections.ProjectionStore.Instance.getTable(_tableName).Name).toBe(_tableName);
         });
@@ -19,7 +19,9 @@ module CQRSjs.Test{
 
     describe("a migration", function(){
         it("should throw an error if the table name already exists", function(){
-            expect(() => ApplicationServices.CommandHandlerService.Instance.handle(new CreateTableCommand(_userName, _tableName))).toThrowError();
+            ApplicationServices.CommandHandlerService.Instance.handle(new Migrations.CreateTableCommand(_userName, _tableName));   
+
+            expect(() => ApplicationServices.CommandHandlerService.Instance.handle(new Migrations.CreateTableCommand(_userName, _tableName))).toThrow();
         });
     });
 }

@@ -1,0 +1,13 @@
+"use strict";
+var tableCreatedEvent_1 = require('./events/tableCreatedEvent');
+exports.TableCreatedEvent = tableCreatedEvent_1.TableCreatedEvent;
+var tableCreatedEventHandler_1 = require('./events/tableCreatedEventHandler');
+exports.TableCreatedEventHandler = tableCreatedEventHandler_1.TableCreatedEventHandler;
+var createTableCommand_1 = require('./commands/createTableCommand');
+exports.CreateTableCommand = createTableCommand_1.CreateTableCommand;
+var createTableCommandHandler_1 = require('./commands/createTableCommandHandler');
+exports.CreateTableCommandHandler = createTableCommandHandler_1.CreateTableCommandHandler;
+var createTableCommandValidator_1 = require('./commands/createTableCommandValidator');
+exports.CreateTableCommandValidator = createTableCommandValidator_1.CreateTableCommandValidator;
+var migrationAggregateRoot_1 = require('./domain/migrationAggregateRoot');
+exports.MigrationAggregateRoot = migrationAggregateRoot_1.MigrationAggregateRoot;

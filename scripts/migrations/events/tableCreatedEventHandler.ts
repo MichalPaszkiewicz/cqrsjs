@@ -2,7 +2,7 @@ import {TableCreatedEvent} from '../events/tableCreatedEvent';
 import * as Projections from '../../projections';
 
 
-    class TableCreatedEventHandler implements Projections.IAmAnEventHandler{
+    export class TableCreatedEventHandler implements Projections.IAmAnEventHandler{
         
         HandlesEvent = "TableCreated";
         

@@ -42,7 +42,7 @@ module CQRSjs.Test{
         var testCommand = new TestCommand("bad");
 
         it("correctly rejects a bad command", function(){
-            expect(() => testCommandValidator.validate(testCommand)).toThrowError();
+            expect(() => testCommandValidator.validate(testCommand)).toThrow();
         });
     }); 
 

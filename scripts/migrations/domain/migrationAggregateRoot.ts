@@ -27,7 +27,7 @@ import {TableCreatedEvent} from '../events/tableCreatedEvent';
             var self = this;
 
             self.registerEventAction(new Domain.EventAction("TableCreated", (e: TableCreatedEvent) =>{
-                this._tables.push(e.TableName);
+                self._tables.push(e.TableName);
             }));
         }
 

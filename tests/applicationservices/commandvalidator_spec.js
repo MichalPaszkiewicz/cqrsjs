@@ -47,7 +47,7 @@ var CQRSjs;
             var testCommandValidator = new TestCommandValidator();
             var testCommand = new TestCommand("bad");
             it("correctly rejects a bad command", function () {
-                expect(function () { return testCommandValidator.validate(testCommand); }).toThrowError();
+                expect(function () { return testCommandValidator.validate(testCommand); }).toThrow();
             });
         });
     })(Test = CQRSjs.Test || (CQRSjs.Test = {}));
