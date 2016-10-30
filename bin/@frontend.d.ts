@@ -1,3 +1,3 @@
-declare namespace CQRSjs.FrontEnd {
+declare module FrontEnd {
     function runApp(): void;
 }

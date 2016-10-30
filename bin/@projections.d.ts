@@ -1,10 +1,10 @@
-declare namespace CQRSjs.Projections {
+declare module Projections {
     interface IAmAnEventHandler {
         HandlesEvent: string;
         handle(event: Framework.Event): any;
     }
 }
-declare namespace CQRSjs.Projections {
+declare module Projections {
     class EventHandlerService {
         private static _instance;
         static Instance: EventHandlerService;
@@ -13,7 +13,7 @@ declare namespace CQRSjs.Projections {
         handle(event: Framework.Event): void;
     }
 }
-declare namespace CQRSjs.Projections {
+declare module Projections {
     class ProjectionStore {
         private static _instance;
         static Instance: ProjectionStore;
@@ -38,13 +38,13 @@ declare namespace CQRSjs.Projections {
         overrideGetTable(func: (name: string) => Table): void;
     }
 }
-declare namespace CQRSjs.Projections {
+declare module Projections {
     class Row {
         Data: string;
         constructor(data: Object);
     }
 }
-declare namespace CQRSjs.Projections {
+declare module Projections {
     class Table {
         Name: string;
         Rows: Row[];

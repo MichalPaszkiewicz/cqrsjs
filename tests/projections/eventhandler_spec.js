@@ -1,11 +1,10 @@
+"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-/// <reference path="../helpers/loadForTest.ts" />
-eval(loadModule("framework"));
-eval(loadModule("projections"));
+var Framework = require('../../scripts/framework');
 var CQRSjs;
 (function (CQRSjs) {
     var Test;
@@ -19,7 +18,7 @@ var CQRSjs;
                 this.TestProperty = testProperty;
             }
             return TestEvent;
-        }(CQRSjs.Framework.Event));
+        }(Framework.Deed));
         describe("an event handler", function () {
             var lastEventTestProperty = "none";
             var TestEventHandler = (function () {

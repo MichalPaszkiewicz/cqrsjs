@@ -1,7 +1,0 @@
-{
-	"compilerOptions":	{
-		"target": "es5",
-		"out": "../bin/@domain.js",
-		"sourceMap": false
-	}
-}

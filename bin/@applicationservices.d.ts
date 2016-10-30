@@ -1,4 +1,4 @@
-declare namespace CQRSjs.ApplicationServices {
+declare module ApplicationServices {
     interface IAmACommandValidator {
         ValidatesCommand: string;
         validate(command: Framework.Command): void;
@@ -9,13 +9,13 @@ declare namespace CQRSjs.ApplicationServices {
         validate(command: Framework.Command): void;
     }
 }
-declare namespace CQRSjs.ApplicationServices {
+declare module ApplicationServices {
     interface IAmACommandHandler {
         HandlesCommand: string;
         handle(command: Framework.Command): void;
     }
 }
-declare namespace CQRSjs.ApplicationServices {
+declare module ApplicationServices {
     class CommandHandlerService {
         private static _instance;
         static Instance: CommandHandlerService;

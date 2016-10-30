@@ -1,4 +1,4 @@
-declare namespace CQRSjs.Framework {
+declare module Framework {
     class Command {
         AggregateRootID: string;
         UserName: string;
@@ -7,7 +7,7 @@ declare namespace CQRSjs.Framework {
         constructor(aggregateRootID: string, userName: string, commandName: string);
     }
 }
-declare namespace CQRSjs.Framework {
+declare module Framework {
     class ErrorService {
         private static _instance;
         private _onThrowEvents;
@@ -18,7 +18,7 @@ declare namespace CQRSjs.Framework {
         throw(message: string): void;
     }
 }
-declare namespace CQRSjs.Framework {
+declare module Framework {
     class Event {
         AggregateRootID: string;
         UserName: string;
@@ -27,27 +27,30 @@ declare namespace CQRSjs.Framework {
         constructor(aggregateRootID: string, eventName: string, userName: string);
     }
 }
-declare namespace CQRSjs.Framework {
+declare module Framework {
     class EventStoreService {
         private static _instance;
         static Instance: EventStoreService;
         constructor();
         private _eventsStored;
         private _funcsOnAdded;
-        private _getEvents();
-        EventsStored: Event[];
-        getEventsWithID(id: string): Event[];
-        overrideGetEvents(func: () => Event[]): void;
-        overrideGetEventsWithID(func: (id: string) => Event[]): void;
-        store(event: Event): void;
+        private _store;
+        private _getEvents(callback);
+        private _getEventsWithID(id, callback);
+        getEvents(callback: (events: Event[]) => void): void;
+        getEventsWithID(id: string, callback: (events: Event[]) => void): void;
+        overrideGetEvents(func: (callback: (events: Event[]) => void) => void): void;
+        overrideGetEventsWithID(func: (id: string, callback: (events: Event[]) => void) => void): void;
+        store(event: Event, callback: () => void): Then;
+        overrideStore(func: (event: Event, callback: () => void) => void): void;
         onAdded(func: (event: Event) => void): void;
         clearOnAdded(): void;
     }
 }
-declare namespace CQRSjs.IDGenerator {
+declare module IDGenerator {
     function generate(): string;
 }
-declare namespace CQRSjs.Framework {
+declare module Framework {
     class LogService {
         private static _instance;
         onLog(onLogEvent: (message: string) => void): void;
@@ -57,7 +60,15 @@ declare namespace CQRSjs.Framework {
         clearLogEvents(): void;
     }
 }
-declare namespace CQRSjs.Framework {
+declare module Framework {
+    class Then {
+        private _func;
+        private _childProcess;
+        run(): void;
+        then(func: () => void): Then;
+    }
+}
+declare module Framework {
     class TimeService {
         private static _instance;
         static Instance: TimeService;

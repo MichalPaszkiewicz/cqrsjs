@@ -1,6 +1,5 @@
-/// <reference path="../helpers/loadForTest.ts" />
-eval(loadModule("framework"));
-eval(loadModule("domain"));
+import * as Framework from '../../scripts/framework';
+import * as Domain from '../../scripts/domain';
 
 module CQRSjs.Test{
 
@@ -11,8 +10,8 @@ module CQRSjs.Test{
     class TestAggregateRoot extends Domain.AggregateRoot{
         TestProperty: string;
 
-        testMethod(command: Framework.Command){
-            this.applyEvent(new Framework.Event(_aggregateRootID, _eventName, _userName));
+        testMethod(command: Framework.Command, callback: () => void){
+            this.applyEvent(new Framework.Deed(_aggregateRootID, _eventName, _userName), callback);
         }
 
         constructor(id: string){
@@ -34,13 +33,15 @@ module CQRSjs.Test{
 
     describe("a new aggregate root", function(){
     
-        var testEvent = new Framework.Event(_aggregateRootID, _eventName, _userName);
+        var testEvent = new Framework.Deed(_aggregateRootID, _eventName, _userName);
         var testAggregateRoot = new TestAggregateRoot(_aggregateRootID);
 
-        testAggregateRoot.applyEvent(testEvent);
+        
 
         it("performs desired event actions", function(){
-            expect(testAggregateRoot.TestProperty).toBe(_eventName);
+            testAggregateRoot.applyEvent(testEvent,() => {
+                expect(testAggregateRoot.TestProperty).toBe(_eventName);
+            });
         });
         
     });
@@ -48,10 +49,12 @@ module CQRSjs.Test{
     describe("a new aggregate root", function(){
         var testCommand = new Framework.Command(_aggregateRootID, _userName, "test command");
         var testAggregateRoot = new TestAggregateRoot(_aggregateRootID);
-        testAggregateRoot.testMethod(testCommand);
 
         it("sets an event off correctly after a command is applied to it", function(){
-            expect(testAggregateRoot.TestProperty).toBe(_eventName);
+            testAggregateRoot.testMethod(testCommand,() => {
+                expect(testAggregateRoot.TestProperty).toBe(_eventName);
+            });
+            
         })
     });
 

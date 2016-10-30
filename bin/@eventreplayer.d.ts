@@ -1,9 +1,9 @@
-declare namespace CQRSjs.EventReplayer {
+declare module EventReplayer {
     class EventReplayerService {
         private static _instance;
         static Instance: EventReplayerService;
         clearCurrentState(): void;
-        replayAll(): void;
-        replayTo(time: Date): void;
+        replayAll(callback: () => void): void;
+        replayTo(time: Date, callback: () => void): void;
     }
 }

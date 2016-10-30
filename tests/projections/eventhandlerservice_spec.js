@@ -1,11 +1,11 @@
+"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-/// <reference path="../helpers/loadForTest.ts" />
-eval(loadModule("framework"));
-eval(loadModule("projections"));
+var Framework = require('../../scripts/framework');
+var Projections = require('../../scripts/projections');
 var CQRSjs;
 (function (CQRSjs) {
     var Test;
@@ -19,7 +19,7 @@ var CQRSjs;
                 this.TestProperty = testProperty;
             }
             return TestEvent;
-        }(CQRSjs.Framework.Event));
+        }(Framework.Deed));
         var lastEventTestProperty = "none";
         var TestEventHandler = (function () {
             function TestEventHandler() {
@@ -33,7 +33,7 @@ var CQRSjs;
         var testEventHandler = new TestEventHandler();
         var testEvent = new TestEvent("test 1");
         describe("an event handler service", function () {
-            var testEventHandlerService = new CQRSjs.Projections.EventHandlerService();
+            var testEventHandlerService = new Projections.EventHandlerService();
             testEventHandlerService.register(testEventHandler);
             testEventHandlerService.handle(testEvent);
             it("should handle the event with the correct EventHandler", function () {
@@ -41,7 +41,7 @@ var CQRSjs;
             });
         });
         describe("an event handler service", function () {
-            var testEventHandlerService = new CQRSjs.Projections.EventHandlerService();
+            var testEventHandlerService = new Projections.EventHandlerService();
             var SecondEventHandler = (function () {
                 function SecondEventHandler() {
                     this.HandlesEvent = "none";
@@ -59,7 +59,7 @@ var CQRSjs;
             });
         });
         describe("an event handler service", function () {
-            var testEventHandlerService = new CQRSjs.Projections.EventHandlerService();
+            var testEventHandlerService = new Projections.EventHandlerService();
             var SecondEventHandler = (function () {
                 function SecondEventHandler() {
                     this.HandlesEvent = "none";

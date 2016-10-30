@@ -1,13 +1,13 @@
-/// <reference path="../helpers/loadForTest.ts" />
-eval(loadModule("framework"));
-eval(loadModule("projections"));
+import * as Framework from '../../scripts/framework';
+import * as Domain from '../../scripts/domain';
+import * as Projections from '../../scripts/projections';
 
 module CQRSjs.Test{
 
     var _aggregateRootID = "123";
     var _userName = "testing event handlers"
 
-    class TestEvent extends Framework.Event{
+    class TestEvent extends Framework.Deed{
         TestProperty: string;
         
         constructor(testProperty: string){

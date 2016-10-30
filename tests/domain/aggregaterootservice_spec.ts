@@ -1,6 +1,5 @@
-/// <reference path="../helpers/loadForTest.ts" />
-eval(loadModule("framework"));
-eval(loadModule("domain"));
+import * as Framework from '../../scripts/framework';
+import * as Domain from '../../scripts/domain';
 
 module CQRSjs.Test{
 
@@ -11,8 +10,8 @@ module CQRSjs.Test{
     class TestAggregateRoot extends Domain.AggregateRoot{
         TestProperty: string;
 
-        testMethod(command: Framework.Command){
-            this.applyEvent(new Framework.Event(_aggregateRootID, _eventName, _userName));
+        testMethod(command: Framework.Command, callback: () => void){
+            this.applyEvent(new Framework.Deed(_aggregateRootID, _eventName, _userName), callback);
         }
 
         constructor(id: string){
@@ -24,9 +23,10 @@ module CQRSjs.Test{
 
     describe("aggregate root service", function(){
         var testAggregateRootService = new Domain.AggregateRootService();
-
         it("should add an aggregate root correctly", function(){
-            expect(testAggregateRootService.getByID(TestAggregateRoot, _aggregateRootID).ID).toBe(_aggregateRootID);
+            testAggregateRootService.getByID(TestAggregateRoot, _aggregateRootID, function(aggregateRoot){
+                expect(aggregateRoot.ID).toBe(_aggregateRootID);
+            });
         })
     });
 }

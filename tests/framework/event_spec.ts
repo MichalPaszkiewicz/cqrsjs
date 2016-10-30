@@ -1,5 +1,5 @@
-/// <reference path="../helpers/loadForTest.ts" />
-eval(loadModule("framework"));
+import * as Framework from '../../scripts/framework';
+
 
 module CQRSjs.Test{
     var _aggregateRootID = "123";
@@ -7,7 +7,7 @@ module CQRSjs.Test{
     var _userName = "test";
     
     describe("a basic event", function(){
-        var event = new Framework.Event(_aggregateRootID, _eventName, _userName);
+        var event = new Framework.Deed(_aggregateRootID, _eventName, _userName);
 
         it("has the correct aggregateRootID", function(){
             expect(event.AggregateRootID).toBe(_aggregateRootID);
@@ -23,10 +23,10 @@ module CQRSjs.Test{
     });
 
     describe("a new event class", function(){
-        class TestEvent extends Framework.Event{
+        class TestEvent extends Framework.Deed{
 
         }
-        var event = new Framework.Event(_aggregateRootID, _eventName, _userName);
+        var event = new Framework.Deed(_aggregateRootID, _eventName, _userName);
 
         it("has the correct aggregateRootID", function(){
             expect(event.AggregateRootID).toBe(_aggregateRootID);

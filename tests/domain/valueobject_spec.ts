@@ -1,6 +1,5 @@
-/// <reference path="../helpers/loadForTest.ts" />
-eval(loadModule("framework"));
-eval(loadModule("domain"));
+import * as Framework from '../../scripts/framework';
+import * as Domain from '../../scripts/domain';
 
 module CQRSjs.Test{
 
@@ -18,8 +17,8 @@ module CQRSjs.Test{
         var testObj1 = new TestValueObject(testID, testArray);
         var testObj2 = new TestValueObject(testID, testArray);
         var testObj3 = new TestValueObject(testID, badArray);
-        var testObj4 = new TestValueObject(IDGenerator.generate(), testArray);
-        var testObj5 = new TestValueObject(IDGenerator.generate(), badArray);
+        var testObj4 = new TestValueObject(Framework.IDGenerator.generate(), testArray);
+        var testObj5 = new TestValueObject(Framework.IDGenerator.generate(), badArray);
 
         it("correctly compares two value objects with an array", function(){
             expect(testObj1.equals(testObj1)).toBeTruthy();
@@ -54,8 +53,8 @@ module CQRSjs.Test{
         var testObj1 = new TestValueObject(testID, testObj);
         var testObj2 = new TestValueObject(testID, testObj);
         var testObj3 = new TestValueObject(testID, badObj);
-        var testObj4 = new TestValueObject(IDGenerator.generate(), testObj);
-        var testObj5 = new TestValueObject(IDGenerator.generate(), badObj);
+        var testObj4 = new TestValueObject(Framework.IDGenerator.generate(), testObj);
+        var testObj5 = new TestValueObject(Framework.IDGenerator.generate(), badObj);
 
         it("correctly compares two value objects with an inner value object", function(){
             expect(testObj.equals(badObj)).toBeFalsy();
@@ -86,8 +85,8 @@ module CQRSjs.Test{
         var testObj1 = new TestValueObject(testID, testObj);
         var testObj2 = new TestValueObject(testID, testObj);
         var testObj3 = new TestValueObject(testID, badObj);
-        var testObj4 = new TestValueObject(IDGenerator.generate(), testObj);
-        var testObj5 = new TestValueObject(IDGenerator.generate(), badObj);
+        var testObj4 = new TestValueObject(Framework.IDGenerator.generate(), testObj);
+        var testObj5 = new TestValueObject(Framework.IDGenerator.generate(), badObj);
 
         it("correctly compares two value objects with an object", function(){
             expect(testObj1.equals(testObj1)).toBeTruthy();

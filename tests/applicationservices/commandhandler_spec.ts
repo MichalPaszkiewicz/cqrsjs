@@ -1,11 +1,10 @@
-/// <reference path="../helpers/loadForTest.ts" />
-eval(loadModule("framework"));
-eval(loadModule("domain"));
-eval(loadModule("applicationservices"));
+
+import * as Framework from '../../scripts/framework';
+import * as ApplicationServices from '../../scripts/applicationservices';
 
 module CQRSjs.Test{
 
-    var _aggregateRootID = IDGenerator.generate();
+    var _aggregateRootID = Framework.IDGenerator.generate();
     var _userName = "test command handler";
 
     class TestCommand extends Framework.Command{

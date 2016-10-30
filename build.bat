@@ -1,3 +1,5 @@
 @echo off
-call node build.js
+cd scripts
+call tsc
+cd ..
 pause

@@ -1,10 +1,10 @@
+"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-/// <reference path="../helpers/loadForTest.ts" />
-eval(loadModule("framework"));
+var Framework = require('../../scripts/framework');
 var CQRSjs;
 (function (CQRSjs) {
     var Test;
@@ -13,7 +13,7 @@ var CQRSjs;
         var _eventName = "testEvent";
         var _userName = "test";
         describe("a basic event", function () {
-            var event = new CQRSjs.Framework.Event(_aggregateRootID, _eventName, _userName);
+            var event = new Framework.Deed(_aggregateRootID, _eventName, _userName);
             it("has the correct aggregateRootID", function () {
                 expect(event.AggregateRootID).toBe(_aggregateRootID);
             });
@@ -31,8 +31,8 @@ var CQRSjs;
                     _super.apply(this, arguments);
                 }
                 return TestEvent;
-            }(CQRSjs.Framework.Event));
-            var event = new CQRSjs.Framework.Event(_aggregateRootID, _eventName, _userName);
+            }(Framework.Deed));
+            var event = new Framework.Deed(_aggregateRootID, _eventName, _userName);
             it("has the correct aggregateRootID", function () {
                 expect(event.AggregateRootID).toBe(_aggregateRootID);
             });

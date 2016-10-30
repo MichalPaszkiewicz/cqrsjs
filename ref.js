@@ -31,7 +31,7 @@ var deleteFolderRecursive = function(path) {
 function runTSC(path){
     console.log("building " + path + " ...\r\n");
     if(path.indexOf("test") == -1){
-        var cmdScript = "cd " + path + " & " + "tsc --declaration & cd ..";
+        var cmdScript = "cd " + path + " & " + "tsc --module commonjs --declaration & cd ..";
     }
     exec(cmdScript);
 }
@@ -69,18 +69,19 @@ var update = function () {
     //read refs.refs file and remove all whitespace
     var refsFile = fs.readFileSync("refs.refs","utf-8").replace(/ /g, "").replace(/\t/g,"");
     
-    var lines = refsFile.replace(/\r\n/g,";").split(";")
+    var lines = refsFile.replace(/\n/g,";").replace(/;;/g,";").split(";")
         .map(function(ref){
             if(ref.indexOf("//") != -1){ return ref.substr(0, ref.indexOf("//")); }
-            return ref;
-        })
-        .filter(function(ref){return ref.length > 0;});        
+            return ref.replace(/\r|\n/g,"");
+        })        
+        .filter(function(ref){return ref.replace(/\s/g,"").length > 0;});        
 
     var tscs = {};
     
     for(var i = 0; i < lines.length; i++){        
         var splitLine = lines[i].split("<==");
         var proj = splitLine[0];
+
         var refs = splitLine[1].split(",");
         
         var binDirectory = "./" + proj + "/bin";

@@ -1,16 +1,16 @@
-/// <reference path="../helpers/loadForTest.ts" />
-eval(loadModule("framework"));
-eval(loadModule("projections"));
-eval(loadModule("eventreplayer"));
+import * as Framework from '../../scripts/framework';
+import * as Domain from '../../scripts/domain';
+import * as Projections from '../../scripts/projections';
+import * as EventReplayer from '../../scripts/eventreplayer/eventreplayerservice';
 
 module CQRSjs.Test{
 
     var testEventReplayerService = new EventReplayer.EventReplayerService();
-    var _aggregateRootID = IDGenerator.generate();
+    var _aggregateRootID = Framework.IDGenerator.generate();
     var _userName = "testing eventreplayer";
     var num = 0;
 
-    class CreateTableEvent extends Framework.Event{
+    class CreateTableEvent extends Framework.Deed{
         constructor(){
             super(_aggregateRootID, "CreateTableEvent", _userName);
         }
@@ -26,7 +26,7 @@ module CQRSjs.Test{
     }
     Projections.EventHandlerService.Instance.register(new CreateTableEventHandler());
 
-    class TestEvent extends Framework.Event{
+    class TestEvent extends Framework.Deed{
         constructor(){
             super(_aggregateRootID, "testEvent", _userName);
         }
@@ -45,29 +45,37 @@ module CQRSjs.Test{
 
     describe("an event replayer service", function(){
         
-        Framework.EventStoreService.Instance.store(new CreateTableEvent());
+        var promise = Framework.EventStoreService.Instance.store(new CreateTableEvent(), ()=>{});
         for(var i = 0; i < 10; i++){
-            Framework.EventStoreService.Instance.store(new TestEvent());
+            promise = promise.then(() => { Framework.EventStoreService.Instance.store(new TestEvent(),() => {}) });
         }
 
         Framework.TimeService.Instance.addMinutes(1);
         var intermediateTime = Framework.TimeService.Instance.now();
 
-        Framework.TimeService.Instance.addMinutes(1);
+        promise = promise.then(() => {
+            intermediateTime = Framework.TimeService.Instance.now();
+            Framework.TimeService.Instance.addMinutes(1);        
+        });
+
         for(var i = 0; i < 10; i++){
-            Framework.EventStoreService.Instance.store(new TestEvent());
+            promise = promise.then(() => { Framework.EventStoreService.Instance.store(new TestEvent(), ()=>{}) });
         }
     
         it("should not have replayed the last 10 events if replaying to intermediateTime", function(){
-            testEventReplayerService.replayTo(intermediateTime);
-            expect(Projections.ProjectionStore.Instance.getTable("testTable").Rows.length).toBe(10);
-            expect(num).toBe(10);
+            promise = promise.then(()=> { testEventReplayerService.replayTo(intermediateTime, () => {
+                expect(Projections.ProjectionStore.Instance.getTable("testTable").Rows.length).toBe(10);
+                expect(num).toBe(10);
+            }) });           
         });
 
         it("should have all the events if replaying to future", function(){
-            testEventReplayerService.replayAll();
-            expect(Projections.ProjectionStore.Instance.getTable("testTable").Rows.length).toBe(20);
-            expect(num).toBe(20);
+            promise.then(() => {
+                testEventReplayerService.replayAll(()=> {
+                    expect(Projections.ProjectionStore.Instance.getTable("testTable").Rows.length).toBe(20);
+                    expect(num).toBe(20);
+                });   
+            });
         });
 
     });

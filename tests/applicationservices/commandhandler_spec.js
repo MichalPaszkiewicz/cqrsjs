@@ -1,17 +1,15 @@
+"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-/// <reference path="../helpers/loadForTest.ts" />
-eval(loadModule("framework"));
-eval(loadModule("domain"));
-eval(loadModule("applicationservices"));
+var Framework = require('../../scripts/framework');
 var CQRSjs;
 (function (CQRSjs) {
     var Test;
     (function (Test) {
-        var _aggregateRootID = CQRSjs.IDGenerator.generate();
+        var _aggregateRootID = Framework.IDGenerator.generate();
         var _userName = "test command handler";
         var TestCommand = (function (_super) {
             __extends(TestCommand, _super);
@@ -19,7 +17,7 @@ var CQRSjs;
                 _super.call(this, _aggregateRootID, _userName, "testCommand");
             }
             return TestCommand;
-        }(CQRSjs.Framework.Command));
+        }(Framework.Command));
         describe("a command handler", function () {
             var lastLog = "nothing";
             var TestCommandHandler = (function () {

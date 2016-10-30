@@ -1,17 +1,16 @@
+"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-/// <reference path="../helpers/loadForTest.ts" />
-eval(loadModule("framework"));
-eval(loadModule("domain"));
-eval(loadModule("applicationservices"));
+var Framework = require('../../scripts/framework');
+var ApplicationServices = require('../../scripts/applicationservices');
 var CQRSjs;
 (function (CQRSjs) {
     var Test;
     (function (Test) {
-        var _aggregateRootID = CQRSjs.IDGenerator.generate();
+        var _aggregateRootID = Framework.IDGenerator.generate();
         var _userName = "test command handler";
         var _errorMessage = "the test property is bad!";
         var validated = false;
@@ -22,7 +21,7 @@ var CQRSjs;
                 this.TestProperty = TestProperty;
             }
             return TestCommand;
-        }(CQRSjs.Framework.Command));
+        }(Framework.Command));
         var TestCommandValidator = (function (_super) {
             __extends(TestCommandValidator, _super);
             function TestCommandValidator() {
@@ -31,11 +30,11 @@ var CQRSjs;
             TestCommandValidator.prototype.validate = function (command) {
                 validated = true;
                 if (command.TestProperty == "bad") {
-                    CQRSjs.Framework.ErrorService.throw(_errorMessage);
+                    Framework.ErrorService.throw(_errorMessage);
                 }
             };
             return TestCommandValidator;
-        }(CQRSjs.ApplicationServices.CommandValidator));
+        }(ApplicationServices.CommandValidator));
         describe("a command validator", function () {
             var testCommandValidator = new TestCommandValidator();
             var testCommand = new TestCommand("good");

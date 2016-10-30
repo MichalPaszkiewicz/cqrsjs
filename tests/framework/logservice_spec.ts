@@ -1,5 +1,5 @@
-/// <reference path="../helpers/loadForTest.ts" />
-eval(loadModule("framework"));
+import * as Framework from '../../scripts/framework';
+
 
 module CQRSjs.Test{
 

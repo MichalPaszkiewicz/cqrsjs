@@ -1,4 +1,4 @@
-declare namespace CQRSjs.Domain {
+declare module Domain {
     class EventAction {
         EventName: string;
         Action: (e: Framework.Event) => void;
@@ -8,20 +8,20 @@ declare namespace CQRSjs.Domain {
         ID: string;
         protected _eventActions: EventAction[];
         protected registerEventAction(eventAction: EventAction): void;
-        applyEvent(event: Framework.Event): void;
+        applyEvent(event: Framework.Event, callback: () => void): void;
         constructor(id: string);
     }
 }
-declare namespace CQRSjs.Domain {
+declare module Domain {
     class AggregateRootService {
         private static _instance;
         static Instance: AggregateRootService;
         getByID<T extends AggregateRoot>(a: {
             new (id: string): T;
-        }, aggregateRootID: string): T;
+        }, aggregateRootID: string, callback: (aggregateRoot: T) => void): void;
     }
 }
-declare namespace CQRSjs.Domain {
+declare module Domain {
     class ValueObject {
         private objectsAreEqual(object1, object2, stackLevel);
         equals(other: ValueObject): any;
