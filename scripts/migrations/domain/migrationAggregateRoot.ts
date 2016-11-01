@@ -16,7 +16,9 @@ import {TableCreatedEvent} from '../events/tableCreatedEvent';
         }
 
         ensureTableCanBeAdded(tableName: string){
-            if(this._tables.filter((t) => t == tableName).length > 0){
+            var self = this;
+
+            if(self._tables.filter((t) => t == tableName).length > 0){
                 Framework.ErrorService.throw("this table already exists");
             }
         }

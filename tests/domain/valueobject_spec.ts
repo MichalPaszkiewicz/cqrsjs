@@ -141,10 +141,10 @@ module CQRSjs.Test{
 
         var errorMessage;
 
-        Framework.ErrorService.Instance.clearOnThrowEvents();
-        Framework.ErrorService.Instance.onThrow((message:string)=>{errorMessage = message});
-
         it("it fails when the stack is too deep", function(){
+            Framework.ErrorService.Instance.clearOnThrowEvents();
+            Framework.ErrorService.Instance.onThrow((message:string)=>{errorMessage = message});
+
             expect(testObj1.equals(testObj2)).toBeFalsy();
             expect(errorMessage).toBe("stack overflow in value object comparison. avoid circular references in value objects");
         })                    

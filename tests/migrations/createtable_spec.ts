@@ -19,8 +19,11 @@ module CQRSjs.Test{
 
     describe("a migration", function(){
         it("should throw an error if the table name already exists", function(){
+            Framework.ErrorService.Instance.clearOnThrowEvents();
+            Framework.ErrorService.Instance.onThrow((message) => {
+                throw message;
+            });
             ApplicationServices.CommandHandlerService.Instance.handle(new Migrations.CreateTableCommand(_userName, _tableName));   
-
             expect(() => ApplicationServices.CommandHandlerService.Instance.handle(new Migrations.CreateTableCommand(_userName, _tableName))).toThrow();
         });
     });

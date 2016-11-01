@@ -23,7 +23,8 @@ var MigrationAggregateRoot = (function (_super) {
         self.applyEvent(new tableCreatedEvent_1.TableCreatedEvent(self.ID, command.UserName, command.TableName), callback);
     };
     MigrationAggregateRoot.prototype.ensureTableCanBeAdded = function (tableName) {
-        if (this._tables.filter(function (t) { return t == tableName; }).length > 0) {
+        var self = this;
+        if (self._tables.filter(function (t) { return t == tableName; }).length > 0) {
             Framework.ErrorService.throw("this table already exists");
         }
     };

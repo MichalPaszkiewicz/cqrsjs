@@ -28,21 +28,24 @@ module CQRSjs.Test{
     }
 
     describe("a command validator", function(){
-        var testCommandValidator = new TestCommandValidator();
-        var testCommand = new TestCommand("good");
-
         it("correctly validates a good command", function(){
+            var testCommandValidator = new TestCommandValidator();
+            var testCommand = new TestCommand("good");
+
             testCommandValidator.validate(testCommand);
             expect(validated).toBe(true);
         })
     });
 
     describe("a command validator", function(){
-        var testCommandValidator = new TestCommandValidator();
-        var testCommand = new TestCommand("bad");
-
         it("correctly rejects a bad command", function(){
-            expect(() => testCommandValidator.validate(testCommand)).toThrow();
+            var testCommandValidator = new TestCommandValidator();
+            var testCommand = new TestCommand("bad");
+            Framework.ErrorService.Instance.clearOnThrowEvents();
+            Framework.ErrorService.Instance.onThrow((message) => {
+                throw message;
+            });
+            expect(() => testCommandValidator.validate(testCommand)).toThrow(_errorMessage);
         });
     }); 
 

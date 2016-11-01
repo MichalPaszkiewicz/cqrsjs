@@ -59,7 +59,11 @@ var CQRSjs;
             commandHandlerService.registerValidator(new TestCommandValidator());
             it("will reject bad commands", function () {
                 _handled = false;
-                expect(function () { return commandHandlerService.handle(new TestCommand("bad")); }).toThrow(new Error());
+                Framework.ErrorService.Instance.clearOnThrowEvents();
+                Framework.ErrorService.Instance.onThrow(function (message) {
+                    throw message;
+                });
+                expect(function () { return commandHandlerService.handle(new TestCommand("bad")); }).toThrow();
                 expect(_handled).toBeFalsy();
             });
         });

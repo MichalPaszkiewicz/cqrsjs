@@ -144,9 +144,9 @@ var CQRSjs;
             var testObj1 = new TestValueObject(testID, testObj);
             var testObj2 = new TestValueObject(testID, testObj);
             var errorMessage;
-            Framework.ErrorService.Instance.clearOnThrowEvents();
-            Framework.ErrorService.Instance.onThrow(function (message) { errorMessage = message; });
             it("it fails when the stack is too deep", function () {
+                Framework.ErrorService.Instance.clearOnThrowEvents();
+                Framework.ErrorService.Instance.onThrow(function (message) { errorMessage = message; });
                 expect(testObj1.equals(testObj2)).toBeFalsy();
                 expect(errorMessage).toBe("stack overflow in value object comparison. avoid circular references in value objects");
             });

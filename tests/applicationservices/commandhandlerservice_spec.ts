@@ -57,8 +57,12 @@ var _aggregateRootID = Framework.IDGenerator.generate();
         commandHandlerService.registerValidator(new TestCommandValidator());
 
         it("will reject bad commands", function(){
-            _handled = false;                    
-            expect(() => commandHandlerService.handle(new TestCommand("bad"))).toThrow(new Error());
+            _handled = false;    
+            Framework.ErrorService.Instance.clearOnThrowEvents();
+            Framework.ErrorService.Instance.onThrow((message) => {
+                throw message;
+            });                
+            expect(() => commandHandlerService.handle(new TestCommand("bad"))).toThrow();
             expect(_handled).toBeFalsy();
         });
 

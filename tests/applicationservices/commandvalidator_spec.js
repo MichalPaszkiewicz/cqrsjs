@@ -36,18 +36,22 @@ var CQRSjs;
             return TestCommandValidator;
         }(ApplicationServices.CommandValidator));
         describe("a command validator", function () {
-            var testCommandValidator = new TestCommandValidator();
-            var testCommand = new TestCommand("good");
             it("correctly validates a good command", function () {
+                var testCommandValidator = new TestCommandValidator();
+                var testCommand = new TestCommand("good");
                 testCommandValidator.validate(testCommand);
                 expect(validated).toBe(true);
             });
         });
         describe("a command validator", function () {
-            var testCommandValidator = new TestCommandValidator();
-            var testCommand = new TestCommand("bad");
             it("correctly rejects a bad command", function () {
-                expect(function () { return testCommandValidator.validate(testCommand); }).toThrow();
+                var testCommandValidator = new TestCommandValidator();
+                var testCommand = new TestCommand("bad");
+                Framework.ErrorService.Instance.clearOnThrowEvents();
+                Framework.ErrorService.Instance.onThrow(function (message) {
+                    throw message;
+                });
+                expect(function () { return testCommandValidator.validate(testCommand); }).toThrow(_errorMessage);
             });
         });
     })(Test = CQRSjs.Test || (CQRSjs.Test = {}));
