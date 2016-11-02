@@ -19,13 +19,17 @@ var MigrationAggregateRoot = (function (_super) {
     }
     MigrationAggregateRoot.prototype.addTable = function (command, callback) {
         var self = this;
-        self.ensureTableCanBeAdded(command.TableName);
-        self.applyEvent(new tableCreatedEvent_1.TableCreatedEvent(self.ID, command.UserName, command.TableName), callback);
+        self.ensureTableCanBeAdded(command.TableName, function () {
+            self.applyEvent(new tableCreatedEvent_1.TableCreatedEvent(self.ID, command.UserName, command.TableName), callback);
+        });
     };
-    MigrationAggregateRoot.prototype.ensureTableCanBeAdded = function (tableName) {
+    MigrationAggregateRoot.prototype.ensureTableCanBeAdded = function (tableName, callback) {
         var self = this;
         if (self._tables.filter(function (t) { return t == tableName; }).length > 0) {
             Framework.ErrorService.throw("this table already exists");
+        }
+        else {
+            callback();
         }
     };
     return MigrationAggregateRoot;
